@@ -1,0 +1,16 @@
+{
+  "intents": [
+    {
+      "intent": "GetWord"
+    },
+    {
+      "intent": "AddWord",
+      "slots": [
+        {
+          "name": "Word",
+          "type": "AMAZON.LITERAL"
+        }
+      ]
+    }
+  ]
+}
