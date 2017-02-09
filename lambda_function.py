@@ -1,16 +1,19 @@
 """
-Clodhopper
-Fun words in an Alexa skill.
+Alexa skill for learning nifty words.
 """
 
 from __future__ import print_function
 import logging
 import random
+import psycopg2
+import secrets
 
 from words import WORDS
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
+
+DEFAULT_COLLECTION = "hungry-tuber"
 
 # --------------- Helpers that build all of the responses ----------------------
 
@@ -83,8 +86,26 @@ def handle_session_end_request():
 def intent_GetWord(intent, session):
     session_attributes = {}
 
+    # Get a random word from the DB
+    conn = psycopg2.connect(secrets.POSTGRES_URL)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        select word, definition
+        from words
+        where collection = %s
+        and deleted = false
+        order by RANDOM()
+        limit 1""", (DEFAULT_COLLECTION,))
+    qres = cursor.fetchall()
+    if len(qres) == 0:
+        raise RuntimeError("db returned no words")
+
+    word, definition = qres[0]
+
+    # Create the response
     card_title = intent["name"]
-    speech_output = "not implemented"
+    speech_output = "{}. {}. {}. {}".format(word, spellout(word), word, definition)
     reprompt_text = None
 
     return build_response(
@@ -95,21 +116,11 @@ def intent_GetWord(intent, session):
             reprompt_text,
             should_end_session=True))
 
-def intent_GetWord(intent, session):
+def intent_AddWord(intent, session):
     session_attributes = {}
 
-    word = random.choice(WORDS)
-    definitions = [
-        "A very big fish.",
-        "A South American jellyfish. Boat.",
-        "A kind of, um, whale.",
-        "Several units of desiccant.",
-        "Hapless hopless hype.",
-    ]
-    definition = random.choice(definitions)
-
     card_title = intent["name"]
-    speech_output = "{}. {}. {}".format(word, spellout(word), definition)
+    speech_output = "not implemented"
     reprompt_text = None
 
     return build_response(
