@@ -1,0 +1,19 @@
+CREATE TABLE words (
+  collection text NOT NULL,
+  word       text NOT NULL,
+  definition text NOT NULL,
+  ctime      timestamp with time zone NOT NULL,
+  mtime      timestamp with time zone NOT NULL,
+  deleted    bool DEFAULT false,
+
+  PRIMARY KEY (collection, word)
+);
+
+CREATE TABLE views (
+  uid         text NOT NULL,
+  collection  text NOT NULL,
+  word        text NOT NULL,
+  ctime       timestamp with time zone NOT NULL,
+
+  PRIMARY KEY (uid, collection, word)
+);
