@@ -1,0 +1,12 @@
+GetWord give me a word
+GetWord gimme a word
+GetWord word me
+GetWord say a word
+GetWord tell me a word
+GetWord one word please
+
+AddWord add a word
+AddWord add {arbitrage|Word}
+AddWord add the word {arbitrage|Word}
+AddWord add {arbitrage|Word} to the list
+

@@ -3,3 +3,4 @@
 /build.zip
 /secrets.py
 .ipynb_checkpoints
+.envrc

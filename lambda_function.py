@@ -5,8 +5,8 @@ Alexa skill for learning nifty words.
 from __future__ import print_function
 import logging
 import random
+import os
 import psycopg2
-import secrets
 
 from words import WORDS
 
@@ -14,6 +14,8 @@ logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
 DEFAULT_COLLECTION = "hungry-tuber"
+
+POSTGRES_URL = os.environ["POSTGRES_URL"]
 
 # --------------- Helpers that build all of the responses ----------------------
 
@@ -87,7 +89,7 @@ def intent_GetWord(intent, session):
     session_attributes = {}
 
     # Get a random word from the DB
-    conn = psycopg2.connect(secrets.POSTGRES_URL)
+    conn = psycopg2.connect(POSTGRES_URL)
     cursor = conn.cursor()
 
     cursor.execute("""
