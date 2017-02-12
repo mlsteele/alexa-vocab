@@ -1,12 +1,14 @@
+import os
 import psycopg2
 
 import wordlist
 import utils
-import secrets
 
 DEFAULT_COLLECTION = "hungry-tuber"
 
-conn = psycopg2.connect(secrets.POSTGRES_URL)
+POSTGRES_URL = os.environ["POSTGRES_URL"]
+
+conn = psycopg2.connect(POSTGRES_URL)
 cursor = conn.cursor()
 
 for word in wordlist.words:
